@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ include file="/include/header.jsp" %>
+
+<%
+String code = request.getParameter("code"); //db : table 명
+
+String bbs_title = ""; //게시판 이름
+if(code.equals("jayu")){
+	bbs_title = "자유방";
+}else if(code.equals("ungwon")){
+	bbs_title = "응원방";
+}else if(code.equals("jarang")){
+	bbs_title = "자랑방";
+}else if(code.equals("jungko")){
+	bbs_title = "중고방";
+}
+%>
+
+<table width=100% height=50 border=0 style="margin-top:75px;">
+	<tr>
+		<td align=center style="color:#777;font-size:14px;font-weight:bold;">[<%=bbs_title %>] 글쓰기</td>
+	</tr>
+</table>
+
+<center>
+<form action="insert.jsp" method="post" ENCTYPE="multipart/form-data">
+	<!-- 파일첨부를 위해서 ENCTYPE="multipart/form-data"로 사용해야함 -->
+	
+<input type="hidden" name="code" value="<%=code%>">
+	<!-- request.getParameter로 받은 코드값 -->
+	
+<table width="800" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td colspan=3 height=1 width=100% bgcolor=#d1dee2></td>
+	</tr>
+	<tr>
+		<td height=26>옵션</td>
+		<td>
+			<%if(session_level != null && session_level.equals("10")) {%>
+			<input type="radio" name="gongji" value="1">공지
+			<%} %>
+			<input type="radio" name="gongji" value="2" checked>일반
+			<!-- 갤러리형 게시판에선 비밀글작성이 불가능 하도록 제외 -->
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3 height=1 width=100% bgcolor=#d1dee2></td>
+	</tr>
+	<tr>
+		<td height=26>제목</td>
+		<td><input name="subject" style="height:20px;width:99%;" placeholder="제목을 입력하세요"></td>
+	</tr>
+	<tr>
+		<td colspan=3 height=1 width=100% bgcolor=#d1dee2></td>
+	</tr>
+	<tr>
+		<td>내용</td>
+		<td>
+			<textarea name="comment" style="height:250px;width:99%;"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3 height=1 width=100% bgcolor=#d1dee2></td>
+	</tr>
+	<tr>
+		<td>첨부</td>
+		<td>
+			<input type="file" name="file1" title="자랑방에선 사진이 필수!!" required>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3 height=1 width=100% bgcolor=#d1dee2></td>
+	</tr>
+</table>
+<br>
+<table width="800" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="center"><button>작성완료</button></td>
+	</tr>
+</table>
+<br>
+</form>
+</center>
+
+<%@ include file="/include/footer.jsp" %>
